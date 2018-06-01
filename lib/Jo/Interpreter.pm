@@ -23,7 +23,6 @@ my %driver = (
 
 # drive/visit AST node
 #
-
 sub drive {
   my ($node) = shift;
   return $driver{$node->name}->($node) if ($node);
@@ -79,15 +78,14 @@ sub on_logicaloperator {
   my $lhs = drive($node->lhs);
   my $rhs = drive($node->rhs);
 
-  my $val;
   given(lc $node->operator) {
-    $val = ($lhs && $rhs) when ('and');
-    $val = ($lhs || $rhs) when ('or');
+    return ($lhs && $rhs) when ('and');
+    return ($lhs || $rhs) when ('or');
     default {
       croak "Jo::Interpreter-on_logicaloperator incorrect logical operator";
     }
   }
-  return $val;
+  return;
 }
 
 # Main interpreter subrutine
