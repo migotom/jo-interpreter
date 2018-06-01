@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use FindBin '$Bin';
+use lib "$Bin/lib";
+
+use Jo;
+
+my $jo = Jo->new;
+
+print "Jo interpreter v.".$Jo::VERSION." \nHint: type 'die, quit or execute' to exit interpreter and execute program.\n";
+$jo->input_loop;
+
+print "\nBye.\n";
+
+
+__END__
