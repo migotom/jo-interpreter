@@ -1,11 +1,17 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -T
 
 use strict;
 use warnings;
 
-use FindBin '$Bin';
+use FindBin qw/$Bin/;
+BEGIN {
+  if ($Bin =~ m!([\w\./-]+)!) {
+    $Bin = $1;
+  } else {
+    die "Bad directory $Bin\n";
+  }
+}
 use lib "$Bin/lib";
-
 use Jo;
 
 my $jo = Jo->new;

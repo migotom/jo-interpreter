@@ -1,6 +1,7 @@
 package Jo::Lexer;
 use Moo;
 
+use Carp qw/croak/;
 use Jo::Token;
 
 has input => ( is => 'rwp', default => '' );
@@ -11,6 +12,8 @@ sub analyze {
 
 
   my ($stream) = $self->input;
+  croak "No code to analyze" unless ($stream);
+
   $stream =~ s/\s+/ /g;
 
   $self->{line} = 0;
@@ -46,8 +49,9 @@ sub analyze {
       next;
     }
 
-    die "Unexpected character at: '$stream'\n";
+    croak "Unexpected character at: '$stream'\n";
   }
+  return;
 }
 
 sub position {

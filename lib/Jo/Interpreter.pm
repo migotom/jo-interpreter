@@ -2,7 +2,7 @@ package Jo::Interpreter;
 use Moo;
 
 use experimental 'switch';
-use Data::Dumper;
+use Carp qw/croak/;
 
 use Jo::AST::Node;
 use Jo::Lexer;
@@ -12,20 +12,22 @@ has lexer => ( is => 'rwp' );
 has parser => ( is => 'rwp' );
 has ast => ( is => 'rwp' );
 
-our %driver = (
-  block	=> \&on_block,
-  print 	=> \&on_print,
-  if	=> \&on_if,
-  else	=> \&on_else,
-  boolean => \&on_boolean,
+my %driver = (
+  block           => \&on_block,
+  print           => \&on_print,
+  if              => \&on_if,
+  else            => \&on_else,
+  boolean         => \&on_boolean,
   logicaloperator => \&on_logicaloperator,
 );
 
 # drive/visit AST node
 #
+
 sub drive {
   my ($node) = shift;
   return $driver{$node->name}->($node) if ($node);
+  return;
 }
 
 # handle Jo::AST::Block
@@ -43,7 +45,7 @@ sub on_block {
 #
 sub on_print {
   my ($node) = shift;
-  print $node->value;
+  return print($node->value);
 }
 
 # handle Jo::AST:If condition statement
@@ -67,7 +69,7 @@ sub on_if {
 #
 sub on_boolean {
   my ($node) = shift;
-  return $node->eval;
+  return $node->evaluate;
 }
 
 # handle Jo::AST::LogicalOperator 
@@ -82,7 +84,7 @@ sub on_logicaloperator {
     $val = ($lhs && $rhs) when ('and');
     $val = ($lhs || $rhs) when ('or');
     default {
-      die("Jo::Interpreter-on_logicaloperator incorrect logical operator");
+      croak "Jo::Interpreter-on_logicaloperator incorrect logical operator";
     }
   }
   return $val;

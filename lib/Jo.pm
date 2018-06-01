@@ -12,9 +12,9 @@ sub input_loop {
   my ($self) = shift;
 
   my $program;
-  while(my $line = <STDIN>) {
+  while(my $line = <>) {
     # exit interpreter and execute
-    last if $line =~ /^(die|quit|execute)$/i;
+    last if $line =~ /^(die|quit|execute)$/ix;
     $program .= $line;
   }
 
@@ -22,13 +22,13 @@ sub input_loop {
   eval {
     my $interpreter = Jo::Interpreter->new;
     $interpreter->interpret($program);
-  };
-
-  # handle errors
-  if ($@) {
+    1;
+  } or do {
     my $error = $@;
     print STDERR "Error: $error\n";
-  }
+  };
+
+  return;
 }
 
 1;

@@ -1,7 +1,7 @@
 package Jo::Parser;
 use Moo;
 
-use Data::Dumper;
+use Carp qw/croak/;
 use experimental 'switch';
 
 use Jo::Token;
@@ -26,15 +26,16 @@ sub consume {
   my ($self, $expectedTokenType) = @_;
 
   unless ($self->tokens && $self->tokens->[0]) {
-    die("Missing token, expecting $expectedTokenType, line: ".$self->tokens->[0]->position->{line}.", >>".$self->tokens->[0]->position->{fragment}."<<");
+    croak("Missing token, expecting $expectedTokenType, line: ".$self->tokens->[0]->position->{line}.", >>".$self->tokens->[0]->position->{fragment}."<<");
   }
 
   if ($self->tokens->[0]->type eq $expectedTokenType) {
     $self->{lastToken} = shift @{$self->tokens};
     $self->{currentToken} = $self->tokens->[0];
   } else {
-    die("Unexpected token type ".$self->tokens->[0]->type.", expecting $expectedTokenType, line: ".$self->tokens->[0]->position->{line}.", >>".$self->tokens->[0]->position->{fragment}."<<");
+    croak("Unexpected token type ".$self->tokens->[0]->type.", expecting $expectedTokenType, line: ".$self->tokens->[0]->position->{line}.", >>".$self->tokens->[0]->position->{fragment}."<<");
   }
+  return;
 }
 
 # parse begening of program
@@ -74,7 +75,7 @@ sub statement {
     return $self->st_print when (lc 'print');
     return $self->st_if when (lc 'if');
     default {
-      die "Unexpected statement ".$self->{lastToken}->attribute.", line: ".$self->{lastToken}->position->{line}.", >>".$self->{lastToken}->position->{fragment}."<<";
+      croak "Unexpected statement ".$self->{lastToken}->attribute.", line: ".$self->{lastToken}->position->{line}.", >>".$self->{lastToken}->position->{fragment}."<<";
     }
   }
 }
@@ -140,7 +141,7 @@ sub factor {
     # boolean value
     return Jo::AST::Boolean->new( token => $self->{currentToken}, value => lc($self->{lastToken}->attribute))
   } else {
-    die("Jo::Parser->factor syntax error , line: ".$self->{currentToken}->position->{line}.", >>".$self->{currentToken}->position->{fragment}."<<");
+    croak("Jo::Parser->factor syntax error , line: ".$self->{currentToken}->position->{line}.", >>".$self->{currentToken}->position->{fragment}."<<");
   }
 }
 
