@@ -1,6 +1,6 @@
 # Jo lang interpreter
 
-Very simple Jo language intepreter. It's not existing language interpeter developed as an exercise.
+Very simple Jo language intepreter for Perl5. It's not existing language interpeter developed as an exercise.
 
 ### Installation
 
@@ -9,6 +9,18 @@ $ perl Makefile.PL
 $ make
 $ make test 
 $ make install
+```
+
+### Run
+
+```
+$ perl jo
+```
+
+### Syntax
+
+```
+{ if(true) { print(ala); } elsif (false or (true and false)) { print(kota); } else { print(malpke); } }
 ```
 
 ### Credits
