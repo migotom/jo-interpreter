@@ -1,14 +1,17 @@
 # Jo lang interpreter
 
-Very simple Jo language intepreter. It's not existing language interpeter developed as an exercise.
+Very simple Jo language intepreter for Perl6. It's not existing language interpeter developed as an exercise.
 
-### Installation
+### Run 
 
 ```
-$ perl Makefile.PL
-$ make
-$ make test 
-$ make install
+$ perl 6 jo
+```
+
+### Testing
+
+```
+prove --exec perl6 -r -t
 ```
 
 ### Credits
