@@ -1,34 +1,27 @@
-package Jo;
-use Moo;
+use v6;
+
+unit module Jo;
 
 our $VERSION = '0.1';
 
 
-use Jo::Interpreter;
+use Jo::Grammar;
+use Jo::Actions;
 
 # Main live interpreter loop
 #
-sub input_loop {
-  my ($self) = shift;
-
+sub jo-repl is export {
   my $program;
-  while(my $line = <>) {
+  for $*IN.lines {
     # exit interpreter and execute
-    last if $line =~ /^(die|quit|execute)$/ix;
-    $program .= $line;
+    last if $_ ~~ /^(die|quit|execute)$/;
+    $program ~= $_;
   }
 
-  # evaluate program
-  eval {
-    my $interpreter = Jo::Interpreter->new;
-    $interpreter->interpret($program);
-    1;
-  } or do {
-    my $error = $@;
-    print STDERR "Error: $error\n";
-  };
+  try {
+    my $parse = Jo::Grammar.parse($program, actions => Jo::Actions.new);
+    $parse.made[0].run;
+  } // say "Execution error!";
 
   return;
 }
-
-1;

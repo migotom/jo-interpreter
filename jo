@@ -1,25 +1,10 @@
-#!/usr/bin/perl -T
+use v6;
 
-use strict;
-use warnings;
-
-use FindBin qw/$Bin/;
-BEGIN {
-  if ($Bin =~ m!([\w\./-]+)!) {
-    $Bin = $1;
-  } else {
-    die "Bad directory $Bin\n";
-  }
-}
-use lib "$Bin/lib";
+use lib 'lib/';
 use Jo;
 
-my $jo = Jo->new;
+say "Jo interpreter v." ~ $Jo::VERSION ~ " \nHint: type 'die, quit or execute' to exit interpreter and execute program.";
+jo-repl;
 
-print "Jo interpreter v.".$Jo::VERSION." \nHint: type 'die, quit or execute' to exit interpreter and execute program.\n";
-$jo->input_loop;
+say "\nBye";
 
-print "\nBye.\n";
-
-
-__END__
