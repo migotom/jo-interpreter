@@ -5,7 +5,7 @@ Very simple Jo language intepreter for Perl6. It's not existing language interpe
 ### Run 
 
 ```
-$ perl 6 jo
+$ perl6 jo
 ```
 
 ### Testing

@@ -7,7 +7,7 @@ class Jo::AST::Node {
 }
 
 class Jo::AST::Node::Block is Jo::AST::Node {
-  has @.block;
+  has @.block is required;
 
   method run {
     @.block>>.run;
@@ -25,7 +25,7 @@ class Jo::AST::Node::Print is Jo::AST::Node {
 class Jo::AST::Node::If is Jo::AST::Node {
   has $.expression;
   has $.condition;
-  has @.block;
+  has @.block       is required;
 
   method run {
     if $.expression {
@@ -44,7 +44,7 @@ class Jo::AST::Node::If is Jo::AST::Node {
 }
 
 class Jo::AST::Node::Bool is Jo::AST::Node {
-  has $.value;
+  has $.value is required;
 
   method run {
     return $.value;
@@ -52,9 +52,9 @@ class Jo::AST::Node::Bool is Jo::AST::Node {
 }
 
 class Jo::AST::Node::LogicalOperator is Jo::AST::Node {
-  has $.lhs;
-  has $.rhs;
-  has $.operator;
+  has $.lhs       is required;
+  has $.rhs       is required;
+  has $.operator  is required;
 
   method run {
     given $.operator {

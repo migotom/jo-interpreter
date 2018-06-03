@@ -21,7 +21,7 @@ grammar Jo::Grammar {
 
   proto token factor              {*}
   token factor:sym<term>          { <term> }
-  token factor:sym<expression>    {  <expression> }
+  token factor:sym<expression>    { <expression> }
 
   proto token logical-operator    {*}
   token logical-operator:sym<and> { <sym> }
