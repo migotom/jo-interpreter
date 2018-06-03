@@ -14,6 +14,12 @@ $ perl6 jo
 prove --exec perl6 -r -t
 ```
 
+### Syntax
+
+```
+{ if(true) { print(ala); } elsif (false or (true and false)) { print(kota); } else { print(malpke); } }
+```
+
 ### Credits
 
 Jo fun project was developed by Tomasz Kolaj and is licensed under Apache License Version 2.0.
